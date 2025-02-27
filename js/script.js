@@ -9,7 +9,7 @@ let totalColumns = 4; // Initial number of columns
 const gameArea = document.getElementById('game-area');
 const statusDisplay = document.getElementById('status');
 
-// Create randomized lines
+// Create randomized vertical lines
 function createLines() {
   gameArea.innerHTML = ''; // Clear previous lines
   remainingLines = [];
@@ -33,67 +33,81 @@ function createLines() {
   updateStatus();
 }
 
-// Make a line draggable
+// Make lines draggable across the same row
 function makeDraggable(line) {
   let isDragging = false;
 
   line.addEventListener('mousedown', () => {
     isDragging = true;
     line.classList.add('dragging');
+    startRowDrag(line);
   });
 
-  document.addEventListener('mousemove', (event) => {
+  document.addEventListener('mousemove', () => {
     if (isDragging) {
-      // Move the line off-screen when dragged
-      line.style.position = 'absolute';
-      line.style.left = `${event.clientX}px`;
-      line.style.top = `${event.clientY}px`;
+      // Highlight lines being dragged over
+      const row = line.dataset.row;
+      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
+      rowLines.forEach((l) => l.classList.add('dragging'));
     }
   });
 
   document.addEventListener('mouseup', () => {
     if (isDragging) {
-      // Remove the line when dragging ends
+      // Remove all highlighted lines in the same row
       const row = line.dataset.row;
-      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
-      if (rowLines.includes(line)) {
-        line.remove();
-        remainingLines = remainingLines.filter((l) => l !== line);
-        checkGameOver();
-      }
+      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"].dragging`));
+      rowLines.forEach((l) => {
+        l.remove();
+        remainingLines = remainingLines.filter((remainingLine) => remainingLine !== l);
+      });
+      checkGameOver();
     }
     isDragging = false;
-    line.classList.remove('dragging');
+    clearDraggingHighlights();
   });
 
   // Touch Events
   line.addEventListener('touchstart', () => {
     isDragging = true;
     line.classList.add('dragging');
+    startRowDrag(line);
   });
 
-  document.addEventListener('touchmove', (event) => {
+  document.addEventListener('touchmove', () => {
     if (isDragging) {
-      const touch = event.touches[0];
-      line.style.position = 'absolute';
-      line.style.left = `${touch.clientX}px`;
-      line.style.top = `${touch.clientY}px`;
+      const row = line.dataset.row;
+      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
+      rowLines.forEach((l) => l.classList.add('dragging'));
     }
   });
 
   document.addEventListener('touchend', () => {
     if (isDragging) {
       const row = line.dataset.row;
-      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
-      if (rowLines.includes(line)) {
-        line.remove();
-        remainingLines = remainingLines.filter((l) => l !== line);
-        checkGameOver();
-      }
+      const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"].dragging`));
+      rowLines.forEach((l) => {
+        l.remove();
+        remainingLines = remainingLines.filter((remainingLine) => remainingLine !== l);
+      });
+      checkGameOver();
     }
     isDragging = false;
-    line.classList.remove('dragging');
+    clearDraggingHighlights();
   });
+}
+
+// Highlight lines being dragged over
+function startRowDrag(line) {
+  const row = line.dataset.row;
+  const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
+  rowLines.forEach((l) => l.classList.add('dragging'));
+}
+
+// Clear dragging highlights
+function clearDraggingHighlights() {
+  const highlightedLines = Array.from(document.querySelectorAll('.line.dragging'));
+  highlightedLines.forEach((l) => l.classList.remove('dragging'));
 }
 
 // Update the status display
