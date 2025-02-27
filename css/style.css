@@ -11,13 +11,28 @@ body {
   overflow: hidden;   /* Prevent scrolling */
 }
 
-/* Draggable Element */
-#draggable {
+/* Draggable Element (Default State) */
+#draggable, #draggable2 {
   position: absolute;
   width: 150px; /* Length of the line */
   height: 5px;  /* Thickness of the line */
   background-color: black;
   cursor: grab;
-  border-radius: 2px; /* Optional: Rounded edges */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Shadow for depth */
+  border-radius: 2px; /* Rounded edges */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  transition: transform 0.2s ease, background-color 0.2s ease, height 0.2s ease; /* Smooth transitions */
+}
+
+/* Second Draggable Element (Different Color) */
+#draggable2 {
+  background-color: blue;
+}
+
+/* Visual Feedback When Dragging */
+#draggable:active, #draggable.dragging,
+#draggable2:active, #draggable2.dragging {
+  background-color: red; /* Change color */
+  height: 10px; /* Increase thickness */
+  transform: scale(1.1); /* Slightly enlarge */
+  cursor: grabbing;
 }
