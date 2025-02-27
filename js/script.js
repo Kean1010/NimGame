@@ -39,13 +39,11 @@ function makeDraggable(line) {
 
   line.addEventListener('mousedown', () => {
     isDragging = true;
-    line.classList.add('dragging');
     startRowDrag(line);
   });
 
   document.addEventListener('mousemove', () => {
     if (isDragging) {
-      // Highlight lines being dragged over
       const row = line.dataset.row;
       const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"]`));
       rowLines.forEach((l) => l.classList.add('dragging'));
@@ -54,11 +52,10 @@ function makeDraggable(line) {
 
   document.addEventListener('mouseup', () => {
     if (isDragging) {
-      // Remove all highlighted lines in the same row
       const row = line.dataset.row;
       const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"].dragging`));
       rowLines.forEach((l) => {
-        l.remove();
+        l.remove(); // Completely remove the line from the DOM
         remainingLines = remainingLines.filter((remainingLine) => remainingLine !== l);
       });
       checkGameOver();
@@ -70,7 +67,6 @@ function makeDraggable(line) {
   // Touch Events
   line.addEventListener('touchstart', () => {
     isDragging = true;
-    line.classList.add('dragging');
     startRowDrag(line);
   });
 
@@ -87,7 +83,7 @@ function makeDraggable(line) {
       const row = line.dataset.row;
       const rowLines = Array.from(gameArea.querySelectorAll(`.line[data-row="${row}"].dragging`));
       rowLines.forEach((l) => {
-        l.remove();
+        l.remove(); // Completely remove the line from the DOM
         remainingLines = remainingLines.filter((remainingLine) => remainingLine !== l);
       });
       checkGameOver();
@@ -148,8 +144,8 @@ function aiTurn() {
 
   for (let i = 0; i < linesToRemove; i++) {
     const line = linesInRow[i];
-    line.remove();
-    remainingLines = remainingLines.filter((l) => l !== line);
+    line.remove(); // Completely remove the line from the DOM
+    remainingLines = remainingLines.filter((remainingLine) => remainingLine !== line);
   }
 
   checkGameOver();
