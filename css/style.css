@@ -51,3 +51,9 @@ h1 {
   transform: scale(1.1); /* Slightly enlarge */
   cursor: grabbing;
 }
+
+/* Greyed-Out Lines (Removed) */
+.line.removed {
+  background-color: grey; /* Grey color */
+  cursor: not-allowed; /* Indicate it's no longer interactive */
+}
