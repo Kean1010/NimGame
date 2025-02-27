@@ -33,10 +33,10 @@ h1 {
   gap: 10px; /* Space between lines */
 }
 
-/* Draggable Lines */
+/* Vertical Lines */
 .line {
-  width: 50px; /* Length of the line */
-  height: 5px; /* Thickness of the line */
+  width: 5px; /* Thickness of the line */
+  height: 50px; /* Length of the line */
   background-color: black;
   cursor: grab;
   border-radius: 2px; /* Rounded edges */
@@ -47,7 +47,7 @@ h1 {
 /* Visual Feedback When Dragging */
 .line:active, .line.dragging {
   background-color: red; /* Change color */
-  height: 10px; /* Increase thickness */
+  height: 60px; /* Increase length */
   transform: scale(1.1); /* Slightly enlarge */
   cursor: grabbing;
 }
