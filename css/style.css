@@ -2,20 +2,41 @@
 body {
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
   background-color: #f4f4f9;
-  touch-action: none; /* Disable default touch behavior */
-  overflow: hidden;   /* Prevent scrolling */
 }
 
-/* Draggable Element (Default State) */
-#draggable, #draggable2 {
-  position: absolute;
-  width: 150px; /* Length of the line */
-  height: 5px;  /* Thickness of the line */
+h1 {
+  color: #333;
+}
+
+#status {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Game Area */
+#game-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  gap: 20px; /* Space between rows */
+}
+
+/* Row of Lines */
+.row {
+  display: flex;
+  gap: 10px; /* Space between lines */
+}
+
+/* Draggable Lines */
+.line {
+  width: 50px; /* Length of the line */
+  height: 5px; /* Thickness of the line */
   background-color: black;
   cursor: grab;
   border-radius: 2px; /* Rounded edges */
@@ -23,14 +44,8 @@ body {
   transition: transform 0.2s ease, background-color 0.2s ease, height 0.2s ease; /* Smooth transitions */
 }
 
-/* Second Draggable Element (Different Color) */
-#draggable2 {
-  background-color: blue;
-}
-
 /* Visual Feedback When Dragging */
-#draggable:active, #draggable.dragging,
-#draggable2:active, #draggable2.dragging {
+.line:active, .line.dragging {
   background-color: red; /* Change color */
   height: 10px; /* Increase thickness */
   transform: scale(1.1); /* Slightly enlarge */
