@@ -45,7 +45,7 @@ h1 {
 }
 
 /* Visual Feedback When Dragging */
-.line:active, .line.dragging {
+.line.dragging {
   background-color: red; /* Change color */
   height: 60px; /* Increase length */
   transform: scale(1.1); /* Slightly enlarge */
